@@ -1,1 +1,90 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reflextrainer</title>
 
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="menu">
+  <div id="app">
+
+    <!--  MAIN MENU -->
+    <div id="main-menu" class="menu-page screen active">
+      <h1 class="menu-title">Reflextrainer</h1>
+
+      <div class="menu-levels">
+        <button class="menu-card active" data-level="1">
+          <div>
+            <h2>Warm-up</h2>
+            <p>Einfache Übung zum Einstieg</p>
+          </div>
+          <div class="menu-icon">✓</div>
+        </button>
+
+        <button class="menu-card locked" data-level="2">
+          <div>
+            <h2>Farben</h2>
+            <p>Reaktionsübungen mit Farben</p>
+          </div>
+          <div class="menu-icon">🔒</div>
+        </button>
+
+        <button class="menu-card locked" data-level="3">
+          <div>
+            <h2>Nummern</h2>
+            <p>Zahlen schnell erkennen</p>
+          </div>
+          <div class="menu-icon">🔒</div>
+        </button>
+
+        <button class="menu-card locked" data-level="4">
+          <div>
+            <h2>Fang den Ball</h2>
+            <p>Bewegte Objekte anklicken</p>
+          </div>
+          <div class="menu-icon">🔒</div>
+        </button>
+      </div>
+
+      <p class="menu-hint">
+        Schließe jedes Level ab, um das nächste freizuschalten
+      </p>
+    </div>
+
+    <!-- GAME / LEVEL SCREEN -->
+    <div id="game-screen" class="level-page screen" hidden>
+      <button class="back-btn" id="back-to-menu">← Menü</button>
+
+      <div class="level-card">
+        <header class="level-header">
+          <h2 class="level-title" id="level-title">Warm-up</h2>
+          <p class="level-subtitle" id="level-subtitle">
+            Reagiere so schnell wie möglich
+          </p>
+        </header>
+
+        <div id="game-container">
+          <!-- Spielinhalt kommt hier rein -->
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="results-screen" class="level-page screen" hidden>
+      <button class="back-btn" id="results-to-menu">← Menü</button>
+
+      <div class="level-card">
+        <h2 class="level-title">Level abgeschlossen!</h2>
+        <div id="results-content"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script src="script.js"></script>
+</body>
+</html>
