@@ -1,90 +1,62 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reflextrainer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Game</title>
 
-  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="menu">
-  <div id="app">
-
-    <!--  MAIN MENU -->
-    <div id="main-menu" class="menu-page screen active">
-      <h1 class="menu-title">Reflextrainer</h1>
-
-      <div class="menu-levels">
-        <button class="menu-card active" data-level="1">
-          <div>
-            <h2>Warm-up</h2>
-            <p>Einfache Übung zum Einstieg</p>
-          </div>
-          <div class="menu-icon">✓</div>
-        </button>
-
-        <button class="menu-card locked" data-level="2">
-          <div>
-            <h2>Farben</h2>
-            <p>Reaktionsübungen mit Farben</p>
-          </div>
-          <div class="menu-icon">🔒</div>
-        </button>
-
-        <button class="menu-card locked" data-level="3">
-          <div>
-            <h2>Nummern</h2>
-            <p>Zahlen schnell erkennen</p>
-          </div>
-          <div class="menu-icon">🔒</div>
-        </button>
-
-        <button class="menu-card locked" data-level="4">
-          <div>
-            <h2>Fang den Ball</h2>
-            <p>Bewegte Objekte anklicken</p>
-          </div>
-          <div class="menu-icon">🔒</div>
-        </button>
-      </div>
-
-      <p class="menu-hint">
-        Schließe jedes Level ab, um das nächste freizuschalten
-      </p>
-    </div>
-
-    <!-- GAME / LEVEL SCREEN -->
-    <div id="game-screen" class="level-page screen" hidden>
-      <button class="back-btn" id="back-to-menu">← Menü</button>
-
-      <div class="level-card">
-        <header class="level-header">
-          <h2 class="level-title" id="level-title">Warm-up</h2>
-          <p class="level-subtitle" id="level-subtitle">
-            Reagiere so schnell wie möglich
-          </p>
-        </header>
-
-        <div id="game-container">
-          <!-- Spielinhalt kommt hier rein -->
+<body>
+    <div id="app">
+        
+        <!-- Main Menu -->
+        <div id="main-menu" class="screen active">
+            <h1>Reflex Trainer</h1>
+            <div id="level-selection">
+                <button class="level-btn" data-level="1">
+                    <span class="level-name">Warm-up</span>
+                    <span class="level-description">Eine einfache Übung zum Einstieg</span>
+                    <span class="icon checkmark" aria-hidden="true">✓</span>
+                    <span class="icon lock-icon" aria-hidden="true">🔒</span>
+                </button>
+                <button class="level-btn locked" data-level="2">
+                    <span class="level-name">Farben</span>
+                    <span class="level-description">Reaktionsübungen mit wechselnden Farben</span>
+                    <span class="icon checkmark" aria-hidden="true">✓</span>
+                    <span class="icon lock-icon" aria-hidden="true">🔒</span>
+                </button>
+                <button class="level-btn locked" data-level="3">
+                    <span class="level-name">Nummern Suchen</span>
+                    <span class="level-description">Training mit zufälligen Zahlenreizen</span>
+                    <span class="icon checkmark" aria-hidden="true">✓</span>
+                    <span class="icon lock-icon" aria-hidden="true">🔒</span>
+                </button>
+                <button class="level-btn locked" data-level="4">
+                    <span class="level-name">Fang den Ball</span>
+                    <span class="level-description">Fortgeschrittene Übung mit bewegten Objekten</span>
+                    <span class="icon checkmark" aria-hidden="true">✓</span>
+                    <span class="icon lock-icon" aria-hidden="true">🔒</span>
+                </button>
+            </div>
+            <p id="unlock-message">Schließe jedes Level ab, um das nächste freizuschalten</p>
         </div>
-      </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div id="game-container"></div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <h2>Level Complete!</h2>
+            <div id="results-content"></div>
+            <button id="continue-btn">Continue</button>
+            <button id="menu-btn">Main Menu</button>
+        </div>
     </div>
 
-    <!-- RESULTS SCREEN -->
-    <div id="results-screen" class="level-page screen" hidden>
-      <button class="back-btn" id="results-to-menu">← Menü</button>
-
-      <div class="level-card">
-        <h2 class="level-title">Level abgeschlossen!</h2>
-        <div id="results-content"></div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- JAVASCRIPT -->
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
