@@ -567,7 +567,7 @@ class Level4 {
             }
         }
     }
-
+  /*hdbchdbf*/
     complete() {
         cancelAnimationFrame(this.animationId);
         gameManager.completeLevel(4, 'Complete!');
