@@ -450,15 +450,15 @@ class Level2 {
     }
 }*/
 complete() {
-  const accuracy = Math.round((this.correctClicks / this.maxAttempts) * 100);
-
-  if (this.failed) {
-  gameManager.completeLevel( 2,`Zeitlimit überschritten (Limit: ${this.timeLimitMs}ms). Accuracy: ${accuracy}%`,
-      false // <-- NICHT bestanden, kein Freischalten);
-  } else {
-    gameManager.completeLevel(2, accuracy + '% accuracy', true);
-   }
- }
+    const avgTime = Math.round(this.times.reduce((a, b) => a + b) / this.times.length);
+    
+    const timeLimitMs = 1800;
+    const passed = avgTime <= timeLimitMs;
+    
+    if (typeof gameManager !== 'undefined' && gameManager.completeLevel) {
+        gameManager.completeLevel(2, avgTime + 'ms', passed);
+    }
+  }
 }
 
 
