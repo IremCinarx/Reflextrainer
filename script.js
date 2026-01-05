@@ -402,7 +402,6 @@ class Level2 {
         this.failed = true;
         this.complete();
         // Score bleibt wie er ist
-        this.nextRound();
       }, this.timeLimitMs);
 
         document.getElementById('match-btn').onclick = () => this.handleAnswer(true);
@@ -421,6 +420,8 @@ class Level2 {
         this.nextRound();
     }*/
    handleAnswer(userSaysMatch) {
+  if (this.failed) return;
+
   // Timer stoppen
   if (this.timeoutId) clearTimeout(this.timeoutId);
 
