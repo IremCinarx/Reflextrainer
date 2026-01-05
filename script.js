@@ -72,7 +72,7 @@ class GameManager {
         }
     }
 
-    completeLevel(levelNum, score) {
+   /* completeLevel(levelNum, score) {
         if (!this.completedLevels.includes(levelNum)) {
             this.completedLevels.push(levelNum);
             this.saveProgress();
@@ -89,15 +89,43 @@ class GameManager {
             <p>Score: ${score}</p>
         `;
         this.showScreen('results-screen');
-    }
+    }*/
+    completeLevel(levelNum, score, passed = true) {
+  // Nur speichern/freischalten wenn bestanden
+  if (passed && !this.completedLevels.includes(levelNum)) {
+    this.completedLevels.push(levelNum);
+    this.saveProgress();
+  }
 
-    showScreen(screenId) {
+  this.showResults(levelNum, score, passed);
+  this.updateLevelButtons();
+}
+
+showResults(levelNum, score, passed) {
+  const resultsContent = document.getElementById('results-content');
+
+  resultsContent.innerHTML = passed
+    ? `
+      <p>You completed Level ${levelNum} ✅</p>
+      <p>Score: ${score}</p>
+    `
+    : `
+      <p>Level ${levelNum} not passed ❌</p>
+      <p>${score}</p>
+      <p>Du musst das Zeitlimit einhalten, sonst wird das nächste Level nicht freigeschaltet.</p>
+    `;
+
+  this.showScreen('results-screen');
+}
+
+
+   /* showScreen(screenId) {
         document.querySelectorAll('.screen').forEach(screen => {
             screen.classList.remove('active');
         });
         document.getElementById(screenId).classList.add('active');
     }
-}
+}*/
 
 // Initialize game when page loads
 let gameManager;
@@ -254,6 +282,11 @@ class Level2 {
             blue: '#3498db',
             green: '#2ecc71',
             yellow: '#f39c12'
+        this.timeLimitMs = 1200;   // z.B. 1200ms pro Runde
+        this.failed = false;
+        this.timeoutId = null;
+        this.roundStart = 0;
+
         };
     }
 
@@ -330,12 +363,27 @@ class Level2 {
         colorWord.style.color = this.colorNames[displayColor];
 
         this.currentMatch = isMatch;
+        
+         // Start Zeit messen
+        this.roundStart = performance.now();
+
+        // Falls vorher ein Timer lief, stoppen
+        if (this.timeoutId) clearTimeout(this.timeoutId);
+
+        // Timeout setzen: wenn user zu langsam ist -> fail markieren und nächste Runde
+        this.timeoutId = setTimeout(() => {
+        this.failed = true;
+        this.attempts++;
+        // Score bleibt wie er ist
+        this.nextRound();
+      }, this.timeLimitMs);
 
         document.getElementById('match-btn').onclick = () => this.handleAnswer(true);
         document.getElementById('skip-btn').onclick = () => this.handleAnswer(false);
+
     }
 
-    handleAnswer(userSaysMatch) {
+    /*handleAnswer(userSaysMatch) {
         if (userSaysMatch === this.currentMatch) {
             this.correctClicks++;
         }
@@ -344,13 +392,50 @@ class Level2 {
         document.getElementById('score').textContent = this.correctClicks;
 
         this.nextRound();
-    }
+    }*/
+   handleAnswer(userSaysMatch) {
+  // Timer stoppen
+  if (this.timeoutId) clearTimeout(this.timeoutId);
 
-    complete() {
+  const reaction = performance.now() - this.roundStart;
+
+  // Wenn zu langsam -> nicht bestanden
+  if (reaction > this.timeLimitMs) {
+    this.failed = true;
+  }
+
+  // normal auswerten
+  if (userSaysMatch === this.currentMatch) {
+    this.correctClicks++;
+  }
+
+  this.attempts++;
+  document.getElementById('score').textContent = this.correctClicks;
+
+  this.nextRound();
+}
+
+
+   /* complete() {
         const accuracy = Math.round((this.correctClicks / this.maxAttempts) * 100);
         gameManager.completeLevel(2, accuracy + '% accuracy');
     }
-}
+}*/
+complete() {
+  const accuracy = Math.round((this.correctClicks / this.maxAttempts) * 100);
+
+  if (this.failed) {
+    gameManager.completeLevel(
+      2,
+      `Zeitlimit überschritten (Limit: ${this.timeLimitMs}ms). Accuracy: ${accuracy}%`,
+      false // <-- NICHT bestanden, kein Freischalten
+    );
+  } else {
+    gameManager.completeLevel(2, accuracy + '% accuracy', true);
+   }
+ }
+
+
 
 class Level3 {
     constructor() {
