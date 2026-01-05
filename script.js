@@ -281,7 +281,7 @@ class Level1 {
         const avgTime = Math.round(this.times.reduce((a, b) => a + b) / this.times.length);
         // Assuming gameManager is globally available or passed in
         if (typeof gameManager !== 'undefined' && gameManager.completeLevel) {
-            gameManager.completeLevel(1, avgTime + 'ms');
+            gameManager.completeLevel(1, avgTime + 'ms',true);
         } else {
             this.container.innerHTML = `
                 <div id="level1-container">
@@ -453,11 +453,8 @@ complete() {
   const accuracy = Math.round((this.correctClicks / this.maxAttempts) * 100);
 
   if (this.failed) {
-    gameManager.completeLevel(
-      2,
-      `Zeitlimit überschritten (Limit: ${this.timeLimitMs}ms). Accuracy: ${accuracy}%`,
-      false // <-- NICHT bestanden, kein Freischalten
-    );
+  gameManager.completeLevel( 2,`Zeitlimit überschritten (Limit: ${this.timeLimitMs}ms). Accuracy: ${accuracy}%`,
+      false // <-- NICHT bestanden, kein Freischalten);
   } else {
     gameManager.completeLevel(2, accuracy + '% accuracy', true);
    }
@@ -570,7 +567,10 @@ class Level3 {
 
     complete() {
         const accuracy = Math.round((this.correctClicks / this.maxAttempts) * 100);
-        gameManager.completeLevel(3, accuracy + '% accuracy');
+         // Mindestgenauigkeit erforderlich (z.B. 80%)
+        const minAccuracy = 80;
+        const passed = accuracy >= minAccuracy;
+        gameManager.completeLevel(3, accuracy + '% accuracy',passed);
     }
 }
 
@@ -585,6 +585,7 @@ class Level4 {
     }
 
     start() {
+    this.startTime = Date.now(); // Zeit-Tracking starten
         this.container.innerHTML = `
             <div id="level4-container">
                 <h2>Catch the falling balls!</h2>
@@ -683,6 +684,12 @@ class Level4 {
     }
     complete() {
         cancelAnimationFrame(this.animationId);
-        gameManager.completeLevel(4, 'Complete!');
+          // Berechne die benötigte Zeit
+    const timeTaken = Date.now() - this.startTime; // Du musst this.startTime bei Level-Start setzen
+    const timeLimitMs = 30000; // z.B. 30 Sekunden
+    const passed = timeTaken <= timeLimitMs;
+    
+    gameManager.completeLevel(4, Math.round(timeTaken / 1000) + 's', passed);
+        
     }
 }
