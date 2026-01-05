@@ -27,13 +27,23 @@ class GameManager {
         });
 
         // Results screen buttons
-        document.getElementById('continue-btn').addEventListener('click', () => {
+        const continueBtn = document.getElementById('continue-btn');
+         if (continueBtn) {
+          continueBtn.addEventListener('click', () => this.showScreen('main-menu'));
+        }
+
+       const menuBtn = document.getElementById('menu-btn');
+        if (menuBtn) {
+         menuBtn.addEventListener('click', () => this.showScreen('main-menu'));
+        }
+
+       /* document.getElementById('continue-btn').addEventListener('click', () => {
             this.showScreen('main-menu');
         });
 
         document.getElementById('menu-btn').addEventListener('click', () => {
             this.showScreen('main-menu');
-        });
+        });*/
     }
 
     isLevelUnlocked(level) {
@@ -126,6 +136,21 @@ showResults(levelNum, score, passed) {
         document.getElementById(screenId).classList.add('active');
     }
 }*/
+    showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+    });
+
+    const target = document.getElementById(screenId);
+    if (!target) {
+        console.error('Screen not found:', screenId);
+        return;
+    }
+
+    target.classList.add('active');
+}
+}
+
 
 // Initialize game when page loads
 let gameManager;
@@ -282,12 +307,14 @@ class Level2 {
             blue: '#3498db',
             green: '#2ecc71',
             yellow: '#f39c12'
+             };
+        //zeitlimit
         this.timeLimitMs = 1200;   // z.B. 1200ms pro Runde
         this.failed = false;
         this.timeoutId = null;
         this.roundStart = 0;
 
-        };
+        
     }
 
     start() {
@@ -373,7 +400,7 @@ class Level2 {
         // Timeout setzen: wenn user zu langsam ist -> fail markieren und nächste Runde
         this.timeoutId = setTimeout(() => {
         this.failed = true;
-        this.attempts++;
+        this.complete();
         // Score bleibt wie er ist
         this.nextRound();
       }, this.timeLimitMs);
