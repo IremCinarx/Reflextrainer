@@ -461,6 +461,7 @@ complete() {
     gameManager.completeLevel(2, accuracy + '% accuracy', true);
    }
  }
+}
 
 
 
