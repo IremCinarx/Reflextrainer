@@ -420,7 +420,7 @@ class Level2 {
         this.nextRound();
     }*/
    handleAnswer(userSaysMatch) {
-  if (this.failed) return;
+
 
   // Timer stoppen
   if (this.timeoutId) clearTimeout(this.timeoutId);
