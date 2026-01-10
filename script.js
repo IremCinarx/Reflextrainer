@@ -477,8 +477,8 @@ complete() {
     
     if (typeof gameManager !== 'undefined' && gameManager.completeLevel) {
         gameManager.completeLevel(2, avgTime + 'ms', passed);
-    }
-  }
+   }
+ }
 }
 
 
