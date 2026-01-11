@@ -50,7 +50,7 @@ class GameManager {
         return level === 1 || this.completedLevels.includes(level - 1);
     }
 
-    updateLevelButtons() {
+   /* updateLevelButtons() {
         document.querySelectorAll('.level-btn').forEach(btn => {
             const level = parseInt(btn.dataset.level);
             if (this.isLevelUnlocked(level)) {
@@ -59,7 +59,27 @@ class GameManager {
                 btn.classList.add('locked');
             }
         });
+    }*/
+    updateLevelButtons() {
+  document.querySelectorAll('.level-btn').forEach(btn => {
+    const level = parseInt(btn.dataset.level);
+
+    // Completed-Status (für ✓)
+    if (this.completedLevels.includes(level)) {
+      btn.classList.add('completed');
+    } else {
+      btn.classList.remove('completed');
     }
+
+    // Locked/Unlocked
+    if (this.isLevelUnlocked(level)) {
+      btn.classList.remove('locked');
+    } else {
+      btn.classList.add('locked');
+    }
+  });
+}
+
 
     startLevel(levelNum) {
         this.currentLevel = levelNum;
