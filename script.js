@@ -317,6 +317,7 @@ class Level1 {
 
 class Level2 {
     constructor() {
+        this.times = [];
         this.attempts = 0;
         this.maxAttempts = 10;
         this.correctClicks = 0;
@@ -329,7 +330,7 @@ class Level2 {
             yellow: '#f39c12'
              };
         //zeitlimit
-        this.timeLimitMs = 1200;   // z.B. 1200ms pro Runde
+        this.timeLimitMs = 1600;   // z.B. 1200ms pro Runde
         this.failed = false;
         this.timeoutId = null;
         this.roundStart = 0;
@@ -446,6 +447,7 @@ class Level2 {
   if (this.timeoutId) clearTimeout(this.timeoutId);
 
   const reaction = performance.now() - this.roundStart;
+       this.times.push(reaction);
 
   // Wenn zu langsam -> nicht bestanden
   if (reaction > this.timeLimitMs) {
@@ -469,7 +471,7 @@ class Level2 {
         gameManager.completeLevel(2, accuracy + '% accuracy');
     }
 }*/
-complete() {
+/*complete() {
     const avgTime = Math.round(this.times.reduce((a, b) => a + b) / this.times.length);
     
     const timeLimitMs = 1800;
@@ -479,7 +481,20 @@ complete() {
         gameManager.completeLevel(2, avgTime + 'ms', passed);
    }
  }
+}*/
+    complete() {
+  if (this.timeoutId) clearTimeout(this.timeoutId);
+
+  const avgTime = this.times.length
+    ? Math.round(this.times.reduce((a, b) => a + b, 0) / this.times.length)
+    : 999999;
+
+  // bestanden nur wenn keine Runde zu langsam war
+  const passed = !this.failed;
+
+  gameManager.completeLevel(2, `Avg: ${avgTime}ms | Score: ${this.correctClicks}/${this.maxAttempts}`, passed);
 }
+
 
 
 
