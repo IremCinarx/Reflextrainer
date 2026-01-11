@@ -494,7 +494,7 @@ class Level2 {
 
   gameManager.completeLevel(2, `Avg: ${avgTime}ms | Score: ${this.correctClicks}/${this.maxAttempts}`, passed);
 }
-
+}
 
 
 
