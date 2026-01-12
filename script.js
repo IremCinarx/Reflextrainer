@@ -463,10 +463,7 @@ complete() {
 
   gameManager.completeLevel(
     2,
-    `Time: ${Math.round(totalTime)}ms | Score: ${correct}/${this.maxAttempts}`,
-    passed
-       passed ? '' : explanation
-  );
+    `Time: ${Math.round(totalTime)}ms | Score: ${correct}/${this.maxAttempts}`, passed, passed ? '' : explanation);
 }
 
 
