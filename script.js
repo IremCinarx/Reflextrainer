@@ -428,36 +428,30 @@ class Level2 {
         this.nextRound();
     }
 
-
-
-   /* complete() {
-        const accuracy = Math.round((this.correctClicks / this.maxAttempts) * 100);
-        gameManager.completeLevel(2, accuracy + '% accuracy');
-    }
-}*/
-/*complete() {
-    const avgTime = Math.round(this.times.reduce((a, b) => a + b) / this.times.length);
-    
-    const timeLimitMs = 1800;
-    const passed = avgTime <= timeLimitMs;
-    
-    if (typeof gameManager !== 'undefined' && gameManager.completeLevel) {
-        gameManager.completeLevel(2, avgTime + 'ms', passed);
-   }
- }
-}*/
- complete() {
+complete() {
   const totalTime = performance.now() - this.levelStart;
 
+  const correct = Number(this.correctClicks); // 🔒 sicher Zahl
   const minCorrect = 8;
-  const passed = (totalTime <= this.totalTimeLimitMs) && (this.correctClicks >= minCorrect);
+
+  const passed =
+    totalTime <= this.totalTimeLimitMs &&
+    correct >= minCorrect;
+
+  console.log(
+    'LEVEL 2 RESULT →',
+    'correct:', correct,
+    'time:', Math.round(totalTime),
+    'passed:', passed
+  );
 
   gameManager.completeLevel(
     2,
-    `Time: ${Math.round(totalTime)}ms | Score: ${this.correctClicks}/${this.maxAttempts} (min ${minCorrect})`,
+    `Time: ${Math.round(totalTime)}ms | Score: ${correct}/${this.maxAttempts}`,
     passed
   );
- }
+}
+
 
 }
 
