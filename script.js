@@ -317,11 +317,12 @@ class Level1 {
 
 class Level2 {
     constructor() {
-        this.times = [];
+        // wie viele unden 
         this.attempts = 0;
         this.maxAttempts = 10;
         this.correctClicks = 0;
         this.container = document.getElementById('game-container');
+        // gefragte farben 
         this.colors = ['red', 'blue', 'green', 'yellow'];
         this.colorNames = {
             red: '#e74c3c',
@@ -330,15 +331,14 @@ class Level2 {
             yellow: '#f39c12'
              };
         //zeitlimit
-        this.timeLimitMs = 1600;   // z.B. 1200ms pro Runde
-        this.failed = false;
-        this.timeoutId = null;
-        this.roundStart = 0;
-
-        
+       this.totalTimeLimitMs = 30000; // z.B. 30 Sekunden für ALLE 10 Runden
+       this.levelStart = 0;
+   
     }
 
     start() {
+        this.levelStart = performance.now();
+
         this.container.innerHTML = `
             <div id="level2-container">
                 <h2>Click ONLY when the word matches the color!</h2>
@@ -411,26 +411,13 @@ class Level2 {
         colorWord.style.color = this.colorNames[displayColor];
 
         this.currentMatch = isMatch;
-        
-         // Start Zeit messen
-        this.roundStart = performance.now();
-
-        // Falls vorher ein Timer lief, stoppen
-        if (this.timeoutId) clearTimeout(this.timeoutId);
-
-        // Timeout setzen: wenn user zu langsam ist -> fail markieren und nächste Runde
-        this.timeoutId = setTimeout(() => {
-        this.failed = true;
-        this.complete();
-        // Score bleibt wie er ist
-      }, this.timeLimitMs);
 
         document.getElementById('match-btn').onclick = () => this.handleAnswer(true);
         document.getElementById('skip-btn').onclick = () => this.handleAnswer(false);
 
     }
 
-    /*handleAnswer(userSaysMatch) {
+    handleAnswer(userSaysMatch) {
         if (userSaysMatch === this.currentMatch) {
             this.correctClicks++;
         }
@@ -439,31 +426,8 @@ class Level2 {
         document.getElementById('score').textContent = this.correctClicks;
 
         this.nextRound();
-    }*/
-   handleAnswer(userSaysMatch) {
+    }
 
-
-  // Timer stoppen
-  if (this.timeoutId) clearTimeout(this.timeoutId);
-
-  const reaction = performance.now() - this.roundStart;
-       this.times.push(reaction);
-
-  // Wenn zu langsam -> nicht bestanden
-  if (reaction > this.timeLimitMs) {
-    this.failed = true;
-  }
-
-  // normal auswerten
-  if (userSaysMatch === this.currentMatch) {
-    this.correctClicks++;
-  }
-
-  this.attempts++;
-  document.getElementById('score').textContent = this.correctClicks;
-
-  this.nextRound();
-}
 
 
    /* complete() {
@@ -482,18 +446,19 @@ class Level2 {
    }
  }
 }*/
-    complete() {
-  if (this.timeoutId) clearTimeout(this.timeoutId);
+ complete() {
+  const totalTime = performance.now() - this.levelStart;
 
-  const avgTime = this.times.length
-    ? Math.round(this.times.reduce((a, b) => a + b, 0) / this.times.length)
-    : 999999;
+  const minCorrect = 8;
+  const passed = (totalTime <= this.totalTimeLimitMs) && (this.correctClicks >= minCorrect);
 
-  // bestanden nur wenn keine Runde zu langsam war
-  const passed = !this.failed;
+  gameManager.completeLevel(
+    2,
+    `Time: ${Math.round(totalTime)}ms | Score: ${this.correctClicks}/${this.maxAttempts} (min ${minCorrect})`,
+    passed
+  );
+ }
 
-  gameManager.completeLevel(2, `Avg: ${avgTime}ms | Score: ${this.correctClicks}/${this.maxAttempts}`, passed);
-}
 }
 
 
