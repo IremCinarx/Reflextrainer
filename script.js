@@ -102,25 +102,7 @@ class GameManager {
         }
     }
 
-   /* completeLevel(levelNum, score) {
-        if (!this.completedLevels.includes(levelNum)) {
-            this.completedLevels.push(levelNum);
-            this.saveProgress();
-        }
-        
-        this.showResults(levelNum, score);
-        this.updateLevelButtons();
-    }
-
-    showResults(levelNum, score) {
-        const resultsContent = document.getElementById('results-content');
-        resultsContent.innerHTML = `
-            <p>You completed Level ${levelNum}!</p>
-            <p>Score: ${score}</p>
-        `;
-        this.showScreen('results-screen');
-    }*/
-    completeLevel(levelNum, score, passed = true) {
+ /*   completeLevel(levelNum, score, passed = true) {
   // Nur speichern/freischalten wenn bestanden
   if (passed && !this.completedLevels.includes(levelNum)) {
     this.completedLevels.push(levelNum);
@@ -129,9 +111,19 @@ class GameManager {
 
   this.showResults(levelNum, score, passed);
   this.updateLevelButtons();
+}*/
+    completeLevel(levelNum, score, passed = true, explanation = '') {
+  if (passed && !this.completedLevels.includes(levelNum)) {
+    this.completedLevels.push(levelNum);
+    this.saveProgress();
+  }
+
+  this.showResults(levelNum, score, passed, explanation);
+  this.updateLevelButtons();
 }
 
-showResults(levelNum, score, passed) {
+
+/*showResults(levelNum, score, passed) {
   const resultsContent = document.getElementById('results-content');
 
   resultsContent.innerHTML = passed
@@ -143,6 +135,26 @@ showResults(levelNum, score, passed) {
       <p>Level ${levelNum} not passed ❌</p>
       <p>${score}</p>
       <p>Du musst das Zeitlimit einhalten, sonst wird das nächste Level nicht freigeschaltet.</p>
+    `;
+
+  this.showScreen('results-screen');
+}*/
+showResults(levelNum, score, passed, explanation = '') {
+  const resultsContent = document.getElementById('results-content');
+
+  const extra = (!passed && explanation)
+    ? `<p>${explanation}</p>`
+    : '';
+
+  resultsContent.innerHTML = passed
+    ? `
+      <p>You completed Level ${levelNum} ✅</p>
+      <p>${score}</p>
+    `
+    : `
+      <p>Level ${levelNum} not passed ❌</p>
+      <p>${score}</p>
+      ${extra}
     `;
 
   this.showScreen('results-screen');
@@ -444,11 +456,16 @@ complete() {
     'time:', Math.round(totalTime),
     'passed:', passed
   );
+    const explanation = (totalTime > this.totalTimeLimitMs)
+  ? 'Du warst zu langsam: Du musst das Zeitlimit für alle 10 Runden einhalten.'
+  : 'Du musst mindestens 8 von 10 richtig haben.';
+
 
   gameManager.completeLevel(
     2,
     `Time: ${Math.round(totalTime)}ms | Score: ${correct}/${this.maxAttempts}`,
     passed
+       passed ? '' : explanation
   );
 }
 
@@ -564,7 +581,7 @@ class Level3 {
          // Mindestgenauigkeit erforderlich (z.B. 80%)
         const minAccuracy = 80;
         const passed = accuracy >= minAccuracy;
-        gameManager.completeLevel(3, accuracy + '% accuracy',passed);
+        gameManager.completeLevel(3, accuracy + '% accuracy',passed,  passed ? '' : 'Du brauchst mindestens 80% richtige Antworten.');
     }
 }
 
@@ -716,9 +733,15 @@ class Level4 {
 
     // Wenn wir explizit verloren haben (z.B. 3 misses)
     if (passedOverride !== null) passed = passedOverride;
+        let explanation = '';
+if (passedOverride === false) {
+  explanation = 'Du hast 3 Bälle verpasst. Maximal 2 sind erlaubt.';
+} else if (timeTaken > timeLimitMs) {
+  explanation = 'Du warst zu langsam: Du musst das Zeitlimit einhalten.';
+}
 
     const info = `Time: ${Math.round(timeTaken / 1000)}s | Caught: ${this.caught}/${this.maxBalls} | Missed: ${this.missed}/${this.maxMisses}`;
-    gameManager.completeLevel(4, info, passed);
+    gameManager.completeLevel(4, info, passed,passed ? '' : explanation);
   }
 
 }
