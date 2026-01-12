@@ -576,6 +576,10 @@ class Level4 {
         this.container = document.getElementById('game-container');
         this.balls = [];
         this.animationId = null;
+
+        this.missed = 0;
+        this.maxMisses = 3;
+
     }
 
     start() {
@@ -583,7 +587,11 @@ class Level4 {
         this.container.innerHTML = `
             <div id="level4-container">
                 <h2>Catch the falling balls!</h2>
-                <p>Caught: <span id="caught">0</span> / ${this.maxBalls}</p>
+             <p>
+              Caught: <span id="caught">0</span> / ${this.maxBalls}
+              | Missed: <span id="missed">0</span> / ${this.maxMisses}
+             </p>
+
                 <canvas id="game-canvas" width="400" height="500"></canvas>
             </div>
         `;
@@ -643,11 +651,22 @@ class Level4 {
             this.ctx.fill();
             this.ctx.closePath();
 
-            // Remove if off screen
             if (ball.y > this.canvas.height + ball.radius) {
-                this.balls.splice(i, 1);
-                this.spawnBall();
-            }
+            this.balls.splice(i, 1);
+
+            this.missed++;
+            const missedEl = document.getElementById('missed');
+            if (missedEl) missedEl.textContent = this.missed;
+
+             // ❌ bei 3 verpassten -> sofort verlieren
+            if (this.missed >= this.maxMisses) {
+            this.complete(false);
+            return;
+          }
+
+          this.spawnBall();
+        }
+
         }
 
         if (this.caught < this.maxBalls) {
@@ -676,7 +695,7 @@ class Level4 {
             }
         }
     }
-    complete() {
+   /* complete() {
         cancelAnimationFrame(this.animationId);
           // Berechne die benötigte Zeit
     const timeTaken = Date.now() - this.startTime; // Du musst this.startTime bei Level-Start setzen
@@ -685,5 +704,21 @@ class Level4 {
     
     gameManager.completeLevel(4, Math.round(timeTaken / 1000) + 's', passed);
         
-    }
+    }*/
+    complete(passedOverride = null) {
+    cancelAnimationFrame(this.animationId);
+
+    const timeTaken = Date.now() - this.startTime;
+    const timeLimitMs = 30000;
+
+     // Standard: bestehen nur wenn Zeit ok UND genug gefangen
+    let passed = (timeTaken <= timeLimitMs) && (this.caught >= this.maxBalls);
+
+    // Wenn wir explizit verloren haben (z.B. 3 misses)
+    if (passedOverride !== null) passed = passedOverride;
+
+    const info = `Time: ${Math.round(timeTaken / 1000)}s | Caught: ${this.caught}/${this.maxBalls} | Missed: ${this.missed}/${this.maxMisses}`;
+    gameManager.completeLevel(4, info, passed);
+  }
+
 }
