@@ -202,11 +202,11 @@ class Level1 {
     start() {
         this.container.innerHTML = `
             <div id="level1-container">
-                <h2>Click the green square as fast as you can!</h2>
-                <p>Round: <span id="round">1</span> / ${this.maxAttempts}</p>
+                <h2>Klicken Sie so schnell wie möglich auf das grüne Quadrat.!</h2>
+                <p>Round: <span id="Runde">1</span> / ${this.maxAttempts}</p>
                 <div id="reaction-area">
                     <div id="green-square"></div>
-                    <p id="waiting-text">Wait for green...</p>
+                    <p id="waiting-text">Warten Sie auf Grün...</p>
                 </div>
             </div>
         `;
