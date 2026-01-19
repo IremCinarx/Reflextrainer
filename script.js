@@ -235,8 +235,11 @@ class Level1 {
             </div>
         `;
 
-        this.addStyles();
-        this.nextRound();
+     this.addStyles();
+     showCountdown(() => {
+     this.nextRound();
+     });
+
     }
 
     addStyles() {
@@ -387,8 +390,11 @@ class Level2 {
             </div>
         `;
 
-        this.addStyles();
-        this.nextRound();
+       this.addStyles();
+       showCountdown(() => {
+       this.nextRound();
+});
+
     }
 
     addStyles() {
@@ -525,7 +531,10 @@ class Level3 {
         `;
 
         this.addStyles();
+        showCountdown(() => {
         this.nextRound();
+        });
+
     }
 
     addStyles() {
@@ -640,8 +649,10 @@ class Level4 {
         
         this.canvas.addEventListener('click', (e) => this.handleClick(e));
         
-        this.spawnBall();
-        this.gameLoop();
+      showCountdown(() => {
+      this.spawnBall();
+      this.gameLoop();
+      });
     }
 
     addStyles() {
