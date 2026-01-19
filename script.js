@@ -1,3 +1,27 @@
+function showCountdown(onFinish) {
+  const overlay = document.createElement('div');
+  overlay.id = 'countdown-overlay';
+  overlay.innerHTML = `<div id="countdown-number">3</div>`;
+  document.body.appendChild(overlay);
+
+  const numbers = ['3', '2', '1', 'LOS'];
+  let index = 0;
+
+  const el = document.getElementById('countdown-number');
+  el.textContent = numbers[index];
+
+  const interval = setInterval(() => {
+    index++;
+    if (index >= numbers.length) {
+      clearInterval(interval);
+      overlay.remove();
+      onFinish(); // 🔥 hier startet das Level
+      return;
+    }
+    el.textContent = numbers[index];
+  }, 800);
+}
+
 class GameManager {
     constructor() {
         this.currentLevel = 1;
