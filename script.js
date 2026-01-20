@@ -51,9 +51,23 @@ class GameManager {
         });
 
         // Results screen buttons
-        const continueBtn = document.getElementById('continue-btn');
+        /*const continueBtn = document.getElementById('continue-btn');
          if (continueBtn) {
           continueBtn.addEventListener('click', () => this.showScreen('main-menu'));
+        }*/
+        const continueBtn = document.getElementById('continue-btn');
+        if (continueBtn) {
+        continueBtn.addEventListener('click', () => {
+         const nextLevel = this.currentLevel + 1;
+
+        // Wenn nächstes Level existiert → starten
+        if (document.querySelector(`.level-btn[data-level="${nextLevel}"]`)) {
+        this.startLevel(nextLevel);
+        } else {
+         // sonst zurück ins Menü (z.B. nach letztem Level)
+        this.showScreen('main-menu');
+          }
+         });
         }
 
        const menuBtn = document.getElementById('menu-btn');
