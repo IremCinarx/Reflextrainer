@@ -1,62 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reflextrainer</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reflextrainer</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="app">
-        
-        <!-- Main Menu -->
-        <div id="main-menu" class="screen active">
-            <h1>Reflextrainer</h1>
-            <div id="level-selection">
-                <button class="level-btn" data-level="1">
-                    <span class="level-name">Warm-up</span>
-                    <span class="level-description">Eine einfache Übung zum Einstieg</span>
-                    <span class="icon checkmark" aria-hidden="true">✓</span>
-                    <span class="icon lock-icon" aria-hidden="true">🔒</span>
-                </button>
-                <button class="level-btn locked" data-level="2">
-                    <span class="level-name">Farben</span>
-                    <span class="level-description">Reaktionsübungen mit wechselnden Farben</span>
-                    <span class="icon checkmark" aria-hidden="true">✓</span>
-                    <span class="icon lock-icon" aria-hidden="true">🔒</span>
-                </button>
-                <button class="level-btn locked" data-level="3">
-                    <span class="level-name">Nummern Suchen</span>
-                    <span class="level-description">Training mit zufälligen Zahlenreizen</span>
-                    <span class="icon checkmark" aria-hidden="true">✓</span>
-                    <span class="icon lock-icon" aria-hidden="true">🔒</span>
-                </button>
-                <button class="level-btn locked" data-level="4">
-                    <span class="level-name">Fang den Ball</span>
-                    <span class="level-description">Fortgeschrittene Übung mit bewegten Objekten</span>
-                    <span class="icon checkmark" aria-hidden="true">✓</span>
-                    <span class="icon lock-icon" aria-hidden="true">🔒</span>
-                </button>
-            </div>
-            <p id="unlock-message">Schließe jedes Level ab, um das nächste freizuschalten</p>
-        </div>
+  <div id="app">
 
-        <!-- Game Screen -->
-        <div id="game-screen" class="screen">
-            <div id="game-container"></div>
-        </div>
-
-        <!-- Results Screen -->
-        <div id="results-screen" class="screen">
-            <h2>Level Complete!</h2>
-            <div id="results-content"></div>
-            <button id="continue-btn">Continue</button>
-            <button id="menu-btn">Main Menu</button>
-        </div>
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen active">
+      <h1>Reflextrainer</h1>
+      <button id="start-btn">Start</button>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Main Menu -->
+    <div id="main-menu" class="screen">
+      <h1>Reflextrainer</h1>
+      <div id="level-selection">
+        <button class="level-btn" data-level="1">
+          <span class="level-name">Warm-up</span>
+          <span class="level-description">Eine einfache Übung zum Einstieg</span>
+          <span class="icon checkmark" aria-hidden="true">✓</span>
+          <span class="icon lock-icon" aria-hidden="true">🔒</span>
+        </button>
+
+        <button class="level-btn locked" data-level="2">
+          <span class="level-name">Nummern Kiste</span>
+          <span class="level-description">Finde die gesuchte Zahl in der Kiste!</span>
+          <span class="icon checkmark" aria-hidden="true">✓</span>
+          <span class="icon lock-icon" aria-hidden="true">🔒</span>
+        </button>
+
+        <button class="level-btn locked" data-level="3">
+          <span class="level-name">Simon Sequence</span>
+          <span class="level-description">Merke dir die Farbfolge</span>
+          <span class="icon checkmark" aria-hidden="true">✓</span>
+          <span class="icon lock-icon" aria-hidden="true">🔒</span>
+        </button>
+
+        <button class="level-btn locked" data-level="4">
+          <span class="level-name">Memory</span>
+          <span class="level-description">Finde die passenden Kartenpaare</span>
+          <span class="icon checkmark" aria-hidden="true">✓</span>
+          <span class="icon lock-icon" aria-hidden="true">🔒</span>
+        </button>
+      </div>
+      <p id="unlock-message">Schließe jedes Level ab, um das nächste freizuschalten.</p>
+    </div>
+
+    <!-- Game Screen MIT ZURÜCK-BUTTON -->
+    <div id="game-screen" class="screen">
+      <button id="game-back-btn" class="back-btn">← Zurück</button>
+      <div id="game-container"></div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen">
+      <h2>Level Complete!</h2>
+      <div id="results-content"></div>
+     
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
