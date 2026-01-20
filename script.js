@@ -153,10 +153,17 @@ class GameManager {
     }
 
     const resultsContent = document.getElementById('results-content');
+    const timeLimits = {
+      1: 'Keine Zeitbegrenzung',
+      2: '20 Sekunden',
+      3: '200 Sekunden',
+      4: '60 Sekunden'
+    };
     resultsContent.innerHTML = `
       <div class="results-simple">
         <p>${passed ? 'Level bestanden ✅' : 'Level nicht bestanden ❌'}</p>
         <p>${score}</p>
+        <p><strong>Zeitlimit:</strong> ${timeLimits[levelNum]}</p>  <!-- ⭐ NEU! -->
       </div>
       <div class="results-buttons">
         ${buttonsHtml}
@@ -349,8 +356,14 @@ class Level2 {
 
   complete() {
     const totalTime = performance.now() - this.levelStart;
-    const passed = totalTime <= this.totalTimeLimitMs;
-    gameManager.completeLevel(2, `Zeit: ${Math.round(totalTime)}ms | Treffer: ${this.correctHits}/${this.maxRounds}`, passed);
+    const timeOk = totalTime <= this.totalTimeLimitMs;
+    const hitsOk = this.correctHits === this.maxRounds;  // ALLE 5 richtig!
+    const passed = timeOk && hitsOk;
+
+    const scoreText = `Zeit: ${Math.round(totalTime)}ms | Treffer: ${this.correctHits}/${this.maxRounds}`;
+    gameManager.completeLevel(2, scoreText, passed);
+    /*const passed = totalTime <= this.totalTimeLimitMs;
+    gameManager.completeLevel(2, `Zeit: ${Math.round(totalTime)}ms | Treffer: ${this.correctHits}/${this.maxRounds}`, passed);*/
   }
 }
 
@@ -491,7 +504,7 @@ class Level3 {
   }
 
   complete() {
-    const totalTime = performance.now() - this.levelStart;
+   const totalTime = performance.now() - this.levelStart;
     const passed = totalTime <= this.totalTimeLimitMs;
     const scoreText = `Zeit: ${Math.round(totalTime)}ms`;
     gameManager.completeLevel(3, scoreText, passed);
