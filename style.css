@@ -579,9 +579,15 @@ body {
   #app {
     width: 100%;
     min-height: 100vh;
+    display: flex;
+    justify-content: center;   /* horizontal zentrieren */
+    align-items: center;       /* vertikal zentrieren */
   }
 
   .screen {
+    width: 100%;
+    max-width: 420px;          /* „Karte“ in der Mitte */
+    margin: 0 auto;
     padding: 16px;
   }
 
@@ -602,7 +608,11 @@ body {
 
   /* Spielbereich auf Handy */
   #game-container {
-    min-height: auto;
+   /* min-height: auto;*/
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   /* Reaktions-Kiste kleiner und flexibel */
