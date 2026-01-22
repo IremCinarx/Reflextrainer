@@ -155,9 +155,9 @@ class GameManager {
     const resultsContent = document.getElementById('results-content');
     const timeLimits = {
       1: 'Keine Zeitbegrenzung',
-      2: '20 Sekunden',
-      3: '200 Sekunden',
-      4: '60 Sekunden'
+      2: '10 Sekunden',
+      3: '60 Sekunden',
+      4: '45 Sekunden'
     };
     resultsContent.innerHTML = `
       <div class="results-simple">
@@ -293,7 +293,7 @@ class Level2 {
     this.maxRounds = 5;
     this.correctHits = 0;
     this.levelStart = 0;
-    this.totalTimeLimitMs = 20000;
+    this.totalTimeLimitMs = 10000;
     this.targetNumber = null;
     this.container = document.getElementById('game-container');
   }
@@ -377,7 +377,7 @@ class Level3 {
     this.locked = false;
     this.playToken = 0;
     this.maxRounds = 5;
-    this.totalTimeLimitMs = 200000;
+    this.totalTimeLimitMs = 60000;
     this.levelStart = 0;
   }
 
@@ -523,7 +523,7 @@ class Level4 {
     this.totalCards = 0;
     this.queue = Promise.resolve();
     this.maxRounds = 5;
-    this.totalTimeLimitMs = 60000;
+    this.totalTimeLimitMs = 45000;
     this.levelStart = 0;
   }
 
