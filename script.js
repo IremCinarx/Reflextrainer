@@ -376,7 +376,7 @@ class Level3 {
     this.round = 0;
     this.locked = false;
     this.playToken = 0;
-    this.maxRounds = 5;
+    this.maxRounds = 4;
     this.totalTimeLimitMs = 60000;
     this.levelStart = 0;
   }
