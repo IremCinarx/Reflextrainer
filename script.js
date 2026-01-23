@@ -155,7 +155,7 @@ class GameManager {
     const resultsContent = document.getElementById('results-content');
     const timeLimits = {
       1: 'Keine Zeitbegrenzung',
-      2: '10 Sekunden',
+      2: '12 Sekunden',
       3: '60 Sekunden',
       4: '45 Sekunden'
     };
@@ -293,7 +293,7 @@ class Level2 {
     this.maxRounds = 5;
     this.correctHits = 0;
     this.levelStart = 0;
-    this.totalTimeLimitMs = 10000;
+    this.totalTimeLimitMs = 12000;
     this.targetNumber = null;
     this.container = document.getElementById('game-container');
   }
